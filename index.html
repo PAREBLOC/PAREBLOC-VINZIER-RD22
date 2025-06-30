@@ -45,7 +45,7 @@
           const message = `Situation d'urgence : Ma position actuelle est ici : ${googleMapsUrl}`;
 
           // Numéro à modifier si besoin
-          const phoneNumber = "+33610195963,+33610242353";
+          const phoneNumber = "+33610195963,+33610242353,+33770413260";
           const smsUrl = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
 
           status.innerHTML = `Position détectée !<br><a href="${smsUrl}">📩 Cliquer ici pour envoyer le SMS</a>`;

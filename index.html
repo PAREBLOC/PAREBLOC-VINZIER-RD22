@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Envoyer ma position</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1.2em;
+      margin-top: 1em;
+    }
+    #status {
+      margin-top: 1em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Envoyer ma position par SMS</h1>
+  <p>Cliquez sur le bouton ci-dessous pour récupérer votre position et préparer un SMS.</p>
+  <button onclick="sendLocation()">📍 Envoyer ma position</button>
+  <p id="status"></p>
+
+  <script>
+    function sendLocation() {
+      const status = document.getElementById('status');
+      status.textContent = "Recherche de la position…";
+
+      if (!navigator.geolocation) {
+        status.textContent = "La géolocalisation n'est pas supportée par votre navigateur.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const latitude = position.coords.latitude.toFixed(6);
+          const longitude = position.coords.longitude.toFixed(6);
+          const googleMapsUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
+          const message = `Situation d'urgence : Ma position actuelle est ici : ${googleMapsUrl}`;
+
+          // Numéro à modifier si besoin
+          const phoneNumber = "+33610195963,+33610242353";
+          const smsUrl = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+
+          status.innerHTML = `Position détectée !<br><a href="${smsUrl}">📩 Cliquer ici pour envoyer le SMS</a>`;
+        },
+        error => {
+          status.textContent = "Impossible de récupérer la position : " + error.message;
+        }
+      );
+    }
+  </script>
+</body>
+</html>
